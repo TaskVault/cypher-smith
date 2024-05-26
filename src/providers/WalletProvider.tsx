@@ -6,10 +6,10 @@ import registryAbi from '@/abi/ERC5564Registry.json'
 import announcerAbi from '@/abi/ERC5564Announcer.json'
 import transferAbi from '@/abi/StealthTransfer.json'
 
-const REGISTRY_ADDRESS = '0x20e866824204D4741436bf72f0316037e24B2170'
-const STEALTH_TRANSFER_ADDRESS = '0x3b5202f65639300c1522170864579df50Ad5CE9c'
-const ANNOUNCER_ADDRESS = '0x47e207c2cC90c3498D9a961DE81D9295538Bfb9f'
-const GAS_MULTIPLIER = 2
+const REGISTRY_ADDRESS = '0xD3Bef33f23A173a9b3f25f68fdaec476bcD75f75'
+const STEALTH_TRANSFER_ADDRESS = '0xEb49229fB71F68a03E46f19Ffa7A72b8b312AB5d'
+const ANNOUNCER_ADDRESS = '0x75b5Ac7Fee622ebd4368cF97d8F8cAA2cde2A54A'
+const GAS_MULTIPLIER = 3
 
 type Wallet = {
   address?: string
@@ -181,13 +181,20 @@ export default function WalletProvider({ children }: Props) {
   }
 
   const registerKeys = async () => {
-    if (!stealthMetaAddressData) {
-      return
+    if (!stealthMetaAddressData || !provider) {
+      throw new Error('Provider is not initialized')
     }
+    const gasPrice = (await provider.getFeeData()).gasPrice
+    if (!gasPrice) {
+      throw new Error('Could not calculate gas price')
+    }
+    const adjustedGasPrice =
+      (gasPrice * BigInt(GAS_MULTIPLIER * 10)) / BigInt(10)
     const contract = new ethers.Contract(REGISTRY_ADDRESS, registryAbi, signer)
     const tx = await contract.registerKeys(
       ethers.ZeroHash,
       stealthMetaAddressData.stealthMetaAddress,
+      { gasPrice: adjustedGasPrice },
     )
     await tx.wait()
     localStorage.setItem('isRegistered', 'true')

@@ -36,6 +36,7 @@ export default function Wallet() {
   } = useWallet()
   const toast = useToast()
   const [isLoading, setIsLoading] = useState(false)
+  const [isRegistrationLoading, setIsRegistrationLoading] = useState(false)
   const [isHistoryLoading, setIsHistoryLoading] = useState(false)
   const [sendAddress, setSendAddress] = useState<string>()
   const [sendAmount, setSendAmount] = useState<string>()
@@ -44,7 +45,7 @@ export default function Wallet() {
 
   const handleRegister = async () => {
     try {
-      setIsLoading(true)
+      setIsRegistrationLoading(true)
       await registerKeys()
       toast({ status: 'success', title: 'Transaction successful' })
     } catch (e) {
@@ -55,7 +56,7 @@ export default function Wallet() {
           'Transaction failed. Check if you have enough tokens for gas fees in this wallet',
       })
     } finally {
-      setIsLoading(false)
+      setIsRegistrationLoading(false)
     }
   }
 
@@ -114,7 +115,7 @@ export default function Wallet() {
                 </Box>
                 {!isRegistered && (
                   <>
-                    {!isLoading && (
+                    {!isRegistrationLoading && (
                       <>
                         <Divider my={6} />
                         <Heading fontSize="2xl">Complete Setup</Heading>
@@ -123,7 +124,7 @@ export default function Wallet() {
                           register the stealth address metadata on-chain to
                           accept transfers.
                         </Box>
-                        <Box mt={3}>
+                        <Box mt={3} fontWeight="bold">
                           Transfer at least 0.05 ETH to this wallet and
                           register.
                         </Box>
@@ -137,17 +138,21 @@ export default function Wallet() {
                         </Button>
                       </>
                     )}
-                    {isLoading && <Loader />}
+                    {isRegistrationLoading && (
+                      <Loader label="Executing Transaction" />
+                    )}
                   </>
                 )}
                 <Divider my={6} />
                 <Box>
-                  <Box>Wallet</Box>
-                  <Box fontWeight="bold">{address}</Box>
+                  <Box fontWeight="bold">Wallet Address</Box>
+                  <Box opacity={0.8} mt={1}>
+                    {address}
+                  </Box>
                 </Box>
                 <Box mt={3}>
-                  <Box>Stealth Meta Address</Box>
-                  <Box fontWeight="bold">
+                  <Box fontWeight="bold">Stealth Meta Address</Box>
+                  <Box opacity={0.8} mt={1}>
                     {stealthMetaAddressData.stealthMetaAddress}
                   </Box>
                 </Box>
@@ -197,8 +202,10 @@ export default function Wallet() {
                     <Heading fontSize="3xl" color="green.300">
                       Transaction Completed
                     </Heading>
-                    <Box mt={6}>New stealth address</Box>
-                    <Box fontWeight="bold" mb={6}>
+                    <Box fontWeight="bold" mt={6}>
+                      New stealth address
+                    </Box>
+                    <Box opacity={0.8} mb={6} mt={1}>
                       {newStealthAddress}
                     </Box>
                     <Link
@@ -209,7 +216,7 @@ export default function Wallet() {
                     </Link>
                   </Box>
                 )}
-                {isLoading && <Loader />}
+                {isLoading && <Loader label="Executing Transaction" />}
               </Box>
             </SimpleGrid>
 
