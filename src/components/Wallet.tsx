@@ -227,7 +227,7 @@ export default function Wallet() {
                     </Thead>
                     <Tbody>
                       {history.map((h: any) => (
-                        <Tr>
+                        <Tr key={h.stealthAddress}>
                           <Td>{h.stealthAddress}</Td>
                           <Td>{formatEther(h.balance)} ETH</Td>
                           <Td isNumeric>
