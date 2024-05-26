@@ -1,6 +1,6 @@
 ## CypherSmith is solving wallet address reusability & anonymity problems
 
-![alt text]([http://url/to/img.png](https://i.pinimg.com/736x/42/77/da/4277dab674b058bb365d1230f420fea2.jpg))
+([https://i.pinimg.com/736x/42/77/da/4277dab674b058bb365d1230f420fea2.jpg])
 
 ### Problems
 
