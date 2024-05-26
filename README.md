@@ -1,5 +1,7 @@
 ## CypherSmith is solving wallet address reusability & anonymity problems
 
+![alt text]([http://url/to/img.png](https://i.pinimg.com/736x/42/77/da/4277dab674b058bb365d1230f420fea2.jpg))
+
 ### Problems
 
 Reduced Privacy: When an address is reused for multiple transactions, it becomes easier for third parties to track and analyze transaction patterns associated with that address. This compromises the privacy of both the sender and receiver, as their transaction history can be inferred from the publicly available blockchain data.
